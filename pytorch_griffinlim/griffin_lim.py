@@ -28,6 +28,7 @@ def griffinlim(S, length, n_iter=32, hop_length=None, win_length=None, window='h
                 momentum        (float)             - The momentum parameter for fast Griffin-Lim
                 init            (str)               - None or random. The method to initialize the phase
                 device          (str)               - The device you want to use to compute. cpu | cuda
+        Ret:    The reconstruct wave which size is [length, 1]
     """
     # Check if the momentum is valid
     if momentum > 1:
