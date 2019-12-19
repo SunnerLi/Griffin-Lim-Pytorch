@@ -1,4 +1,4 @@
-# Gifflin-Lim-Pytorch 
+# Griffin-Lim-Pytorch 
 
 [![Packagist](https://img.shields.io/badge/Pytorch-1.3.0-red.svg)]()
 [![Packagist](https://img.shields.io/badge/Python-3.7.0-blue.svg)]()
