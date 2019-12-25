@@ -11,7 +11,7 @@ import math
     Author: SunnerLi
 """
 
-def griffinlim(S, length, n_iter=32, hop_length=None, win_length=None, window='hann',
+def griffinlim(S, length, angles=None, n_iter=32, hop_length=None, win_length=None, window='hann',
                center=True, momentum=0.99, init='random', device='cpu'):
     """
         The Pytorch implementation of Griffin-lim algorithm
@@ -19,8 +19,10 @@ def griffinlim(S, length, n_iter=32, hop_length=None, win_length=None, window='h
         S[:, :, 0] is the magnitude of spectral, and S[:, :, 1] is the phase
         Ref: https://librosa.github.io/librosa/_modules/librosa/core/spectrum.html#griffinlim
 
-        Arg:    S               (torch.Tensor)      - The spectral you want to reconstruct. Size is [BIN, TIME]
+        Arg:    S               (torch.Tensor)      - The spectral you want to reconstruct. Size is [1, BIN, TIME]
                 length          (int)               - The number of sample in original waveform
+                angle           (torch.Tensor)      - You can provide the initial phase manually. Default is None
+                                                      If you provide, make sure the size is also [1, BIN, TIME]
                 hop_length      (int)               - The hop length of the STFT
                 win_length      (int)               - The window length of the STFT
                 window          (str)               - The name of window function
@@ -37,15 +39,16 @@ def griffinlim(S, length, n_iter=32, hop_length=None, win_length=None, window='h
         raise Exception('griffinlim() called with momentum={} < 0'.format(momentum))
 
     # using complex64 will keep the result to minimal necessary precision
-    angles = torch.empty(S.size()).cuda()
-    if init == 'random':
-        # randomly initialize the phase
-        angles[:] = torch.exp(2 * math.pi * torch.randn(*S.shape))
-    elif init is None:
-        # Initialize an all ones complex matrix
-        angles[:] = 1.0
-    else:
-        raise Exception("init={} must either None or 'random'".format(init))
+    if angles is None:
+        angles = torch.empty(S.size()).cuda()
+        if init == 'random':
+            # randomly initialize the phase
+            angles[:] = torch.exp(2 * math.pi * torch.randn(*S.shape))
+        elif init is None:
+            # Initialize an all ones complex matrix
+            angles[:] = 1.0
+        else:
+            raise Exception("init={} must either None or 'random'".format(init))
 
     # And initialize the previous iterate to 0
     rebuilt = 0.

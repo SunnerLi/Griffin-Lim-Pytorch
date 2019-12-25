@@ -25,7 +25,7 @@ def main():
     magnitude, phase = stft.transform(audio)
 
     # Grifflin-lim to reconstruct the wave without phase
-    wave = griffinlim(magnitude, sr*duration, n_iter=n_iter, hop_length=hop_length, win_length=win_length, device=device)
+    wave = griffinlim(magnitude, sr*duration, n_iter=n_iter, angles=None, hop_length=hop_length, win_length=win_length, device=device)
     wave = wave.cpu().numpy()
     librosa.output.write_wav('out.wav', wave[0], sr, norm=True)
 

@@ -1,4 +1,4 @@
-# Griffin-Lim-Pytorch 
+# Gifflin-Lim-Pytorch 
 
 [![Packagist](https://img.shields.io/badge/Pytorch-1.3.0-red.svg)]()
 [![Packagist](https://img.shields.io/badge/Python-3.7.0-blue.svg)]()
@@ -24,5 +24,5 @@ from torch_stft import STFT
 
 stft = STFT(filter_length=1024, hop_length=256, win_length=1024)
 magnitude, phase = stft.transform(audio)
-wave = griffinlim(magnitude, 205000, n_iter=32, hop_length=256, win_length=1024)
+wave = griffinlim(magnitude, 205000, n_iter=32, hop_length=256, win_length=1024, angles=None)
 ```
